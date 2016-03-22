@@ -1,3 +1,11 @@
+# Android Studio files
+*.iml
+/.idea/workspace.xml
+/.idea/libraries
+
+# Mac OS DS_Store folder
+.DS_Store
+
 # Built application files
 *.apk
 *.ap_

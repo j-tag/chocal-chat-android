@@ -116,17 +116,11 @@ public class Chocal {
         // Go to main activity
         Intent intent = new Intent(mActivity, MainActivity.class);
         mActivity.startActivity(intent);
+        mActivity.finish();
     }
 
     public static synchronized void disconnect() {
         mConnection.disconnect();
-    }
-
-    public static synchronized void endApp(){
-        disconnect();
-        mActivity.moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
     }
 
     /**
@@ -152,12 +146,12 @@ public class Chocal {
         Chocal.mName = name;
     }
 
-    public static synchronized void setUri(String mUri) {
-        Chocal.mUri = mUri;
-    }
-
     public static synchronized String getUri() {
         return mUri;
+    }
+
+    public static synchronized void setUri(String mUri) {
+        Chocal.mUri = mUri;
     }
 
     public static synchronized WebSocketConnection getConnection() {

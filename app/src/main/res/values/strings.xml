@@ -22,4 +22,13 @@
     </string>
     <string name="title_activity_join">Join Chat</string>
     <string name="error_cant_connect_to_chocal_server">Can\'t connect to Chocal Server.</string>
+    <string name="leave_chat">Leave Chat</string>
+    <string name="chocal_logo">Chocal Logo</string>
+    <string name="online">Online</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

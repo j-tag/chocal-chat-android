@@ -14,7 +14,7 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 
 /**
- * Created by JTAG on 02/04/2016 18:26.
+ * Main handler class for communicate with Chocal Server
  */
 public class Chocal {
 
@@ -84,12 +84,14 @@ public class Chocal {
                     Snackbar.make(mActivity.findViewById(R.id.name), R.string.error_cant_connect_to_chocal_server,
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    showProgress(false);
                 }
             });
         } catch (WebSocketException e) {
             Log.e("Chocal.Socket", "Can't connect to Chocal Server. " + e.toString());
             Snackbar.make(mActivity.findViewById(R.id.name), R.string.error_cant_connect_to_chocal_server, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
+            showProgress(false);
         }
     }
 
@@ -117,6 +119,12 @@ public class Chocal {
         Intent intent = new Intent(mActivity, MainActivity.class);
         mActivity.startActivity(intent);
         mActivity.finish();
+    }
+
+    private static synchronized void showProgress(boolean bShow) {
+        if(mActivity instanceof JoinActivity) {
+            ((JoinActivity) mActivity).showProgress(bShow);
+        }
     }
 
     public static synchronized void disconnect() {

@@ -2,12 +2,17 @@ package org.puresoftware.chocalandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -22,6 +27,7 @@ public class Chocal {
     private static final WebSocketConnection mConnection = new WebSocketConnection();
     private static String mUri;
     private static String mName;
+    private static Bitmap mAvatar;
     private static AppCompatActivity mActivity;
 
     private Chocal() {
@@ -96,14 +102,17 @@ public class Chocal {
     }
 
     public static void sendRegisterMessage() {
-        // Try to send register message
+        // Try to send register request message
         JSONObject register = new JSONObject();
         String strJson;
 
-        // TODO: Send avatar image if selected
         try {
             register.put("type", "register");
             register.put("name", mName);
+            if (mAvatar != null) {
+                register.put("image", base64Encode(mAvatar, Bitmap.CompressFormat.JPEG, 100));
+                register.put("image_type", "jpeg");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             // TODO : Show snack bar
@@ -129,6 +138,19 @@ public class Chocal {
 
     public static synchronized void disconnect() {
         mConnection.disconnect();
+    }
+
+    public static String base64Encode(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOutputStream);
+        return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+    }
+
+    public static Bitmap base64Decode(String input)
+    {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     /**
@@ -164,5 +186,13 @@ public class Chocal {
 
     public static synchronized WebSocketConnection getConnection() {
         return mConnection;
+    }
+
+    public static Bitmap getAvatar() {
+        return mAvatar;
+    }
+
+    public static void setAvatar(Bitmap mAvatar) {
+        Chocal.mAvatar = mAvatar;
     }
 }

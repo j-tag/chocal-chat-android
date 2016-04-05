@@ -3,22 +3,41 @@ package org.puresoftware.chocalandroid;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class JoinActivity extends AppCompatActivity {
+
+    private static final int PICK_PHOTO_FOR_AVATAR = 5;
+    private static final int CAPTURE_PHOTO_FOR_AVATAR = 14;
 
     /**
      * Keep track of the join task to ensure we can cancel it if requested.
@@ -31,6 +50,7 @@ public class JoinActivity extends AppCompatActivity {
     private EditText mPortView;
     private View mProgressView;
     private View mJoinFormView;
+    private Bitmap mAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +72,104 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-        Button mJoinButton = (Button) findViewById(R.id.join_button);
-        mJoinButton.setOnClickListener(new OnClickListener() {
+        Button joinButton = (Button) findViewById(R.id.join_button);
+        joinButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptJoin();
             }
         });
 
+        Button avatarButton = (Button) findViewById(R.id.choose_avatar_button);
+        avatarButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseAvatar();
+            }
+        });
+
+        Button captureButton = (Button) findViewById(R.id.capture_avatar_button);
+        captureButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                captureAvatar();
+            }
+        });
+
         mJoinFormView = findViewById(R.id.join_form);
         mProgressView = findViewById(R.id.join_progress);
         Chocal.setActivity(JoinActivity.this);
+    }
+
+    private void chooseAvatar() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), PICK_PHOTO_FOR_AVATAR);
+    }
+
+    private void captureAvatar() {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.take_photo)), CAPTURE_PHOTO_FOR_AVATAR);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            // User selected photo from gallery
+
+            try {
+                // Get the returned data
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                // Crop Avatar picture
+                mAvatar = performCrop(BitmapFactory.decodeStream(inputStream));
+                // Preview Avatar on image view
+                refreshAvatar();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        } else if (requestCode == CAPTURE_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            // User captured photo from camera
+
+            // Get the returned data
+            Bundle extras = data.getExtras();
+            // Get the cropped bitmap
+            mAvatar = performCrop((Bitmap)extras.getParcelable("data"));
+            // Preview Avatar on image view
+            refreshAvatar();
+        }
+    }
+
+    private Bitmap performCrop(Bitmap bitmap) {
+        int width = 128, height = 128;
+
+        Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        float originalWidth = bitmap.getWidth(), originalHeight = bitmap.getHeight();
+        Canvas canvas = new Canvas(croppedBitmap);
+        float scale = width / originalWidth;
+        float xTranslation = 0.0f, yTranslation = (height - originalHeight * scale) / 2.0f;
+        Matrix transformation = new Matrix();
+        transformation.postTranslate(xTranslation, yTranslation);
+        transformation.preScale(scale, scale);
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+        canvas.drawBitmap(bitmap, transformation, paint);
+
+        return croppedBitmap;
+    }
+
+    private void refreshAvatar() {
+        // Show Avatar in image view as a rounded image
+        ImageView avatarImage = (ImageView) findViewById(R.id.avatar_image);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), mAvatar);
+        roundedBitmapDrawable.setCircular(true);
+        avatarImage.setImageDrawable(roundedBitmapDrawable);
     }
 
     /**
@@ -117,7 +224,6 @@ public class JoinActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // TODO : Select an Avatar picture
 
         if (cancel) {
             // There was an error; don't attempt join and focus the first
@@ -201,7 +307,7 @@ public class JoinActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             Chocal.setUri(mUri);
             Chocal.setName(mName);
-            // TODO: Set Avatar
+            Chocal.setAvatar(mAvatar);
             Chocal.initWebSocket();
 
             return true;

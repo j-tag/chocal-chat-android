@@ -30,6 +30,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_description"
+                android:id="@+id/join_description"
+                android:layout_gravity="center_horizontal" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -77,6 +84,41 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:layout_width="@dimen/avatar_width"
+                android:layout_height="@dimen/avatar_width"
+                android:id="@+id/avatar_image"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/avatar_photo"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                style="?android:attr/buttonBarStyle">
+
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_avatar"
+                    android:id="@+id/choose_avatar_button"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    style="?android:attr/buttonBarButtonStyle"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/capture_avatar"
+                    android:id="@+id/capture_avatar_button"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    style="?android:attr/buttonBarButtonStyle"/>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/join_button"

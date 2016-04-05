@@ -3,9 +3,7 @@ package org.puresoftware.chocalandroid;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
@@ -28,15 +26,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -57,10 +46,12 @@ public class MainActivity extends AppCompatActivity
         nameView.setText(Chocal.getName());
         statusView.setText(R.string.online);
 
-        // TODO: Load user Avatar
         // Show user Avatar as a circular image
+        Bitmap bitmap = Chocal.getAvatar();
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.no_avatar);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.no_avatar);
+        }
         RoundedBitmapDrawable avatarRounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         avatarRounded.setCircular(true);
         avatar.setImageDrawable(avatarRounded);

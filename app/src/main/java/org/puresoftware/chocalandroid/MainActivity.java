@@ -1,5 +1,6 @@
 package org.puresoftware.chocalandroid;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            // Disconnect from chocal server
             Chocal.disconnect();
             finish();
         }
@@ -74,8 +77,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_leave_chat) {
-            // TODO: Handle the leave action
+        if (id == R.id.nav_online_users) {
+            // Show users list
+            Intent intent = new Intent(this, UsersActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_leave_chat) {
+            // Disconnect from Chocal Server and leave chat
+            Chocal.disconnect();
+            // Show toast to note user that he left the chat
+            Toast.makeText(this, R.string.you_left_chat_successfully, Toast.LENGTH_LONG).show();
+            // Close current intent
+            finish();
+            // Show join form
+            Intent intent = new Intent(this, JoinActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

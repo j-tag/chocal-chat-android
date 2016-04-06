@@ -37,4 +37,6 @@
     <string name="select_photo">Select Photo</string>
     <string name="capture_avatar">Capture Avatar</string>
     <string name="take_photo">Take a Photo</string>
+    <string name="online_users">Online Users</string>
+    <string name="you_left_chat_successfully">You left the chat successfully</string>
 </resources>

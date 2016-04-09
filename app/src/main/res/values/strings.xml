@@ -39,4 +39,5 @@
     <string name="take_photo">Take a Photo</string>
     <string name="online_users">Online Users</string>
     <string name="you_left_chat_successfully">You left the chat successfully</string>
+    <string name="user_avatar">User Avatar</string>
 </resources>

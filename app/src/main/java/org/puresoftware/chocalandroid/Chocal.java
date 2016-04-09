@@ -8,11 +8,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -29,6 +33,7 @@ public class Chocal {
     private static String mName;
     private static Bitmap mAvatar;
     private static AppCompatActivity mActivity;
+    private static List<User> mUsers = new ArrayList<>();
 
     private Chocal() {
 
@@ -69,6 +74,7 @@ public class Chocal {
                                 break;
                             case "accepted":
                                 showMainActivity();
+                                initOnlineUsers(json);
                                 break;
                             case "error":
                                 // TODO: Handle message
@@ -101,7 +107,32 @@ public class Chocal {
         }
     }
 
-    public static void sendRegisterMessage() {
+    /**
+     * Add all currently online clients to users list.
+     * @param json Received JSON message from server.
+     */
+    private static synchronized void initOnlineUsers(JSONObject json) {
+
+        try {
+            JSONArray onlineClients = json.getJSONArray("online_users");
+
+            for(int i = 0 ; i < onlineClients.length(); i++){
+                JSONObject client = onlineClients.getJSONObject(i);
+                Bitmap avatar = null;
+                if(client.has("image")) {
+                    avatar = base64Decode(client.getString("image"));
+                }
+                User user = new User(client.getString("name"), avatar);
+                mUsers.add(user);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static synchronized void sendRegisterMessage() {
         // Try to send register request message
         JSONObject register = new JSONObject();
         String strJson;
@@ -121,6 +152,14 @@ public class Chocal {
         strJson = register.toString();
         Log.d("Chocal.Socket", "Sending register request message: " + strJson);
         mConnection.sendTextMessage(strJson);
+    }
+
+    public static synchronized List<User> getUsers() {
+        return mUsers;
+    }
+
+    public static synchronized User getUser(int index){
+        return mUsers.get(index);
     }
 
     public static synchronized void showMainActivity() {
@@ -195,4 +234,5 @@ public class Chocal {
     public static void setAvatar(Bitmap mAvatar) {
         Chocal.mAvatar = mAvatar;
     }
+
 }

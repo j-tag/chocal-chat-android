@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -106,14 +107,16 @@ public class JoinActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_PICK);
 
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), PICK_PHOTO_FOR_AVATAR);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)),
+                PICK_PHOTO_FOR_AVATAR);
     }
 
     private void captureAvatar() {
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.take_photo)), CAPTURE_PHOTO_FOR_AVATAR);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.take_photo)),
+                CAPTURE_PHOTO_FOR_AVATAR);
     }
 
     @Override
@@ -167,7 +170,8 @@ public class JoinActivity extends AppCompatActivity {
     private void refreshAvatar() {
         // Show Avatar in image view as a rounded image
         ImageView avatarImage = (ImageView) findViewById(R.id.avatar_image);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), mAvatar);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory
+                .create(getResources(), mAvatar);
         roundedBitmapDrawable.setCircular(true);
         avatarImage.setImageDrawable(roundedBitmapDrawable);
     }
@@ -308,14 +312,18 @@ public class JoinActivity extends AppCompatActivity {
             Chocal.setUri(mUri);
             Chocal.setName(mName);
             Chocal.setAvatar(mAvatar);
-            Chocal.initWebSocket();
-
-            return true;
+            return Chocal.initWebSocket();
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
+            showProgress(false);
+            if(!success) {
+                Snackbar.make(findViewById(R.id.name), R.string.error_cant_connect_to_chocal_server,
+                        Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
         }
 
         @Override

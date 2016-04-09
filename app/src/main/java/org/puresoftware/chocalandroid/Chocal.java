@@ -1,5 +1,6 @@
 package org.puresoftware.chocalandroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,19 +9,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketException;
+import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.tavendo.autobahn.WebSocketConnection;
-import de.tavendo.autobahn.WebSocketException;
-import de.tavendo.autobahn.WebSocketHandler;
+import java.util.Map;
 
 /**
  * Main handler class for communicate with Chocal Server
@@ -28,7 +32,8 @@ import de.tavendo.autobahn.WebSocketHandler;
 public class Chocal {
 
     private static final Chocal _instance = new Chocal();
-    private static final WebSocketConnection mConnection = new WebSocketConnection();
+    private static final WebSocketFactory mSocketFactory = new WebSocketFactory();
+    private static WebSocket mConnection;
     private static String mUri;
     private static String mName;
     private static Bitmap mAvatar;
@@ -39,79 +44,42 @@ public class Chocal {
 
     }
 
-    public static synchronized void initWebSocket() {
+    /**
+     * Note: This method will triggered by an Async task from JoinActivity class in background thread. Keep in mind that this method will not have access to UI components.
+     * @return boolean
+     */
+    public static synchronized boolean initWebSocket() {
+        // Create a web socket. The scheme part can be one of the following:
+        // 'ws', 'wss', 'http' and 'https' (case-insensitive). The user info
+        // part, if any, is interpreted as expected. If a raw socket failed
+        // to be created, an IOException is thrown.
         try {
-            Log.i("Chocal.Socket", "Trying to connect to: " + mUri);
-            mConnection.connect(mUri, new WebSocketHandler() {
+            mConnection = mSocketFactory.createSocket(mUri);
 
-                @Override
-                public void onOpen() {
-                    Log.i("Chocal.Socket", "Connected to Chocal Server at: " + mUri);
-                    sendRegisterMessage();
-                }
+            // Register a listener to receive web socket events.
+            mConnection.addListener(new ChocalWebSocketAdapter());
 
-                @Override
-                public void onTextMessage(String payload) {
-                    Log.d("Chocal.Socket", "Message received: " + payload);
-                    JSONObject json;
+            // Connect to the server and perform an opening handshake.
+            // This method blocks until the opening handshake is finished.
+            mConnection.connect();
 
-                    try {
-                        json = new JSONObject(payload);
+            // Everything goes well, so return true
+            return true;
 
-                        // Decide how to treat message based on its type
-                        switch (json.getString("type")) {
-                            case "plain":
-                                // TODO: Handle message
-                                break;
-                            case "image":
-                                // TODO: Handle message
-                                break;
-                            case "info":
-                                // TODO: Handle message
-                                break;
-                            case "update":
-                                // TODO: Handle message
-                                break;
-                            case "accepted":
-                                showMainActivity();
-                                initOnlineUsers(json);
-                                break;
-                            case "error":
-                                // TODO: Handle message
-                                break;
-                            default:
-                                break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        // TODO : Show snack bar
-                    }
-
-
-                }
-
-                @Override
-                public void onClose(int code, String reason) {
-                    Log.e("Chocal.Socket", "Connection to Chocal Server has been lost. Code: " + code + ", Reason: " + reason);
-                    Snackbar.make(mActivity.findViewById(R.id.name), R.string.error_cant_connect_to_chocal_server,
-                            Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    showProgress(false);
-                }
-            });
-        } catch (WebSocketException e) {
+        } catch (IOException | WebSocketException e) {
+            e.printStackTrace();
             Log.e("Chocal.Socket", "Can't connect to Chocal Server. " + e.toString());
-            Snackbar.make(mActivity.findViewById(R.id.name), R.string.error_cant_connect_to_chocal_server, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            showProgress(false);
+            // Something went wrong, so return false
+            return false;
         }
+
     }
 
     /**
      * Add all currently online clients to users list.
      * @param json Received JSON message from server.
      */
-    private static synchronized void initOnlineUsers(JSONObject json) {
+    public static synchronized void initOnlineUsers(JSONObject json) {
 
         try {
             JSONArray onlineClients = json.getJSONArray("online_users");
@@ -151,7 +119,7 @@ public class Chocal {
 
         strJson = register.toString();
         Log.d("Chocal.Socket", "Sending register request message: " + strJson);
-        mConnection.sendTextMessage(strJson);
+        mConnection.sendText(strJson);
     }
 
     public static synchronized List<User> getUsers() {
@@ -169,7 +137,7 @@ public class Chocal {
         mActivity.finish();
     }
 
-    private static synchronized void showProgress(boolean bShow) {
+    public static synchronized void showProgress(boolean bShow) {
         if(mActivity instanceof JoinActivity) {
             ((JoinActivity) mActivity).showProgress(bShow);
         }
@@ -199,7 +167,7 @@ public class Chocal {
         return _instance;
     }
 
-    public static synchronized Context getActivity() {
+    public static synchronized Activity getActivity() {
         return mActivity;
     }
 
@@ -223,7 +191,7 @@ public class Chocal {
         Chocal.mUri = mUri;
     }
 
-    public static synchronized WebSocketConnection getConnection() {
+    public static synchronized WebSocket getConnection() {
         return mConnection;
     }
 

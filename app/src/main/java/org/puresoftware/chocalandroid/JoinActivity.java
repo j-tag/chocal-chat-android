@@ -130,7 +130,7 @@ public class JoinActivity extends AppCompatActivity {
                 // Get the returned data
                 InputStream inputStream = getContentResolver().openInputStream(data.getData());
                 // Crop Avatar picture
-                mAvatar = performCrop(BitmapFactory.decodeStream(inputStream));
+                mAvatar = ChocalImage.getAvatarValidBitmap(BitmapFactory.decodeStream(inputStream));
                 // Preview Avatar on image view
                 refreshAvatar();
             } catch (FileNotFoundException e) {
@@ -143,28 +143,10 @@ public class JoinActivity extends AppCompatActivity {
             // Get the returned data
             Bundle extras = data.getExtras();
             // Get the cropped bitmap
-            mAvatar = performCrop((Bitmap)extras.getParcelable("data"));
+            mAvatar = ChocalImage.getAvatarValidBitmap((Bitmap) extras.getParcelable("data"));
             // Preview Avatar on image view
             refreshAvatar();
         }
-    }
-
-    private Bitmap performCrop(Bitmap bitmap) {
-        int width = 128, height = 128;
-
-        Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        float originalWidth = bitmap.getWidth(), originalHeight = bitmap.getHeight();
-        Canvas canvas = new Canvas(croppedBitmap);
-        float scale = width / originalWidth;
-        float xTranslation = 0.0f, yTranslation = (height - originalHeight * scale) / 2.0f;
-        Matrix transformation = new Matrix();
-        transformation.postTranslate(xTranslation, yTranslation);
-        transformation.preScale(scale, scale);
-        Paint paint = new Paint();
-        paint.setFilterBitmap(true);
-        canvas.drawBitmap(bitmap, transformation, paint);
-
-        return croppedBitmap;
     }
 
     private void refreshAvatar() {

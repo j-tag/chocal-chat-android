@@ -31,7 +31,7 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="join_description">Join Chocal Chat to communicate with your friends in local network.</string>
+    <string name="join_description">Join Chocal Chat to communicate with your friends.</string>
     <string name="choose_avatar">Choose Avatar</string>
     <string name="avatar_photo">Avatar Photo</string>
     <string name="select_photo">Select Photo</string>

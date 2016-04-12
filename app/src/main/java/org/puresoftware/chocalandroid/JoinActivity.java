@@ -95,6 +95,9 @@ public class JoinActivity extends AppCompatActivity {
         mJoinFormView = findViewById(R.id.join_form);
         mProgressView = findViewById(R.id.join_progress);
         Chocal.setActivity(JoinActivity.this);
+
+        // Load default avatar photo
+        ((ImageView)findViewById(R.id.avatar_image)).setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
     }
 
     private void chooseAvatar() {

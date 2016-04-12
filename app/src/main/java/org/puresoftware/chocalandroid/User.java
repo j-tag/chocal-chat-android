@@ -38,4 +38,8 @@ public class User {
         avatarRounded.setCircular(true);
         return avatarRounded;
     }
+
+    public static void resetCounter() {
+        counter = 0;
+    }
 }

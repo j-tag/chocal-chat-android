@@ -75,6 +75,9 @@ public class Chocal {
      */
     public static synchronized void initOnlineUsers(JSONObject json) {
 
+        // First of all, add current user
+        mUsers.add(mUser);
+
         try {
             JSONArray onlineClients = json.getJSONArray("online_users");
 
@@ -123,6 +126,9 @@ public class Chocal {
         setCurrentUser(null);
         setUri(null);
         mUsers.clear();
+        // Reload new data
+        User.resetCounter();
+        setCurrentUser(new User());
     }
 
     public static User getCurentUser() {

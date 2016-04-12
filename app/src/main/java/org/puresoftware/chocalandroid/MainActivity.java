@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
     private void refreshTitle() {
         // Show number of online users as title
         String title = getString(R.string.online_number);
-        setTitle(String.format(title, Chocal.getUsers().size() + 1));
+        setTitle(String.format(title, Chocal.getUsers().size()));
     }
 
     private void leave() {

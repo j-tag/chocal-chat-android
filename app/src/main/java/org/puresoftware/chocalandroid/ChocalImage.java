@@ -6,11 +6,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 /**
- * Created by JTAG on 12/04/2016 17:39.
+ * org.puresoftware.chocalandroid
+ * Created by Hesam Gholami on 2016/04/12 17:39.
  */
 public class ChocalImage {
     public static Bitmap getAvatarValidBitmap(Bitmap bitmap) {
-        return cropToSquare(resize(bitmap, 128, 128));
+        return resize(cropToSquare(bitmap), 128, 128);
     }
     public static Bitmap resize(Bitmap bitmap, int width, int height) {
         Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

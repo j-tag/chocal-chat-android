@@ -1,12 +1,8 @@
 package org.puresoftware.chocalandroid;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * org.puresoftware.chocalandroid
+ * Created by Hesam Gholami on 2016/03/22 18:56.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,18 +45,12 @@ public class MainActivity extends AppCompatActivity
         TextView nameView = (TextView) headerView.findViewById(R.id.nav_name);
         TextView statusView = (TextView) headerView.findViewById(R.id.nav_status);
 
-        nameView.setText(Chocal.getName());
+        nameView.setText(Chocal.getCurentUser().name);
         statusView.setText(R.string.online);
 
         // Show user Avatar as a circular image
-        Bitmap bitmap = Chocal.getAvatar();
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.no_avatar);
-        }
-        RoundedBitmapDrawable avatarRounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        avatarRounded.setCircular(true);
-        avatar.setImageDrawable(avatarRounded);
+        avatar.setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
     }
 
     @Override

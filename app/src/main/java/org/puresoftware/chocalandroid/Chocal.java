@@ -1,20 +1,16 @@
 package org.puresoftware.chocalandroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 
 import com.neovisionaries.ws.client.WebSocket;
-import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
-import com.neovisionaries.ws.client.WebSocketFrame;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Main handler class for communicate with Chocal Server
@@ -35,8 +30,7 @@ public class Chocal {
     private static final WebSocketFactory mSocketFactory = new WebSocketFactory();
     private static WebSocket mConnection;
     private static String mUri;
-    private static String mName;
-    private static Bitmap mAvatar;
+    private static User mUser = new User();
     private static AppCompatActivity mActivity;
     private static List<User> mUsers = new ArrayList<>();
 
@@ -107,9 +101,9 @@ public class Chocal {
 
         try {
             register.put("type", "register");
-            register.put("name", mName);
-            if (mAvatar != null) {
-                register.put("image", base64Encode(mAvatar, Bitmap.CompressFormat.JPEG, 100));
+            register.put("name", mUser.name);
+            if (mUser.avatar != null) {
+                register.put("image", base64Encode(mUser.avatar, Bitmap.CompressFormat.JPEG, 100));
                 register.put("image_type", "jpeg");
             }
         } catch (JSONException e) {
@@ -126,10 +120,17 @@ public class Chocal {
         // Disconnect socket
         disconnect();
         // Destroy old data
-        setName(null);
+        setCurrentUser(null);
         setUri(null);
-        setAvatar(null);
         mUsers.clear();
+    }
+
+    public static User getCurentUser() {
+        return mUser;
+    }
+
+    public static void setCurrentUser(User mUser) {
+        Chocal.mUser = mUser;
     }
 
     public static synchronized List<User> getUsers() {
@@ -185,14 +186,6 @@ public class Chocal {
         Chocal.mActivity = activity;
     }
 
-    public static synchronized String getName() {
-        return mName;
-    }
-
-    public static synchronized void setName(String name) {
-        Chocal.mName = name;
-    }
-
     public static synchronized String getUri() {
         return mUri;
     }
@@ -204,13 +197,4 @@ public class Chocal {
     public static synchronized WebSocket getConnection() {
         return mConnection;
     }
-
-    public static Bitmap getAvatar() {
-        return mAvatar;
-    }
-
-    public static void setAvatar(Bitmap mAvatar) {
-        Chocal.mAvatar = mAvatar;
-    }
-
 }

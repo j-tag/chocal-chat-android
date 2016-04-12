@@ -23,6 +23,8 @@ public class UserAdapter extends BaseAdapter {
     public UserAdapter(AppCompatActivity activity) {
         mContext = activity;
         mUsers = Chocal.getUsers();
+        // Add current user also
+        mUsers.add(Chocal.getCurentUser().localId, Chocal.getCurentUser());
     }
 
     @Override

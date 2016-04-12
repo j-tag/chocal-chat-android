@@ -7,10 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +15,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -292,8 +287,8 @@ public class JoinActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             Chocal.setUri(mUri);
-            Chocal.setName(mName);
-            Chocal.setAvatar(mAvatar);
+            Chocal.getCurentUser().name = mName;
+            Chocal.getCurentUser().avatar = mAvatar;
             return Chocal.initWebSocket();
         }
 

@@ -23,7 +23,7 @@ public class User {
         this.avatar = avatar;
     }
 
-    private static int counter = 1;
+    private static int counter = 0;
 
     int localId;
     String name;

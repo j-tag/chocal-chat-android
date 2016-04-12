@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        refreshTitle();
+
         // Set current Chocal activity
         Chocal.setActivity(MainActivity.this);
 
@@ -82,6 +84,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void refreshTitle() {
+        // Show number of online users as title
+        String title = getString(R.string.online_number);
+        setTitle(String.format(title, Chocal.getUsers().size() + 1));
     }
 
     private void leave() {

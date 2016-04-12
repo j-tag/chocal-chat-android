@@ -41,4 +41,5 @@
     <string name="you_left_chat_successfully">You left the chat successfully</string>
     <string name="user_avatar">User Avatar</string>
     <string name="now_disconnected_from_chocal">You are now disconnected from Chocal Server</string>
+    <string name="online_number">%1$d Online</string>
 </resources>

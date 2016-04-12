@@ -66,9 +66,8 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            // Disconnect from chocal server
-            Chocal.disconnect();
-            finish();
+            // Leave chat
+            leave();
         }
     }
 
@@ -82,19 +81,24 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, UsersActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_leave_chat) {
-            // Disconnect from Chocal Server and leave chat
-            Chocal.disconnect();
-            // Show toast to note user that he left the chat
-            Toast.makeText(this, R.string.you_left_chat_successfully, Toast.LENGTH_LONG).show();
-            // Close current intent
-            finish();
-            // Show join form
-            Intent intent = new Intent(this, JoinActivity.class);
-            startActivity(intent);
+            // Leave chat
+            leave();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void leave() {
+        // Disconnect from Chocal Server and leave chat
+        Chocal.leave();
+        // Show toast to note user that he left the chat
+        Toast.makeText(this, R.string.you_left_chat_successfully, Toast.LENGTH_LONG).show();
+        // Close current intent
+        finish();
+        // Show join form
+        Intent intent = new Intent(this, JoinActivity.class);
+        startActivity(intent);
     }
 }

@@ -122,6 +122,16 @@ public class Chocal {
         mConnection.sendText(strJson);
     }
 
+    public static synchronized void leave() {
+        // Disconnect socket
+        disconnect();
+        // Destroy old data
+        setName(null);
+        setUri(null);
+        setAvatar(null);
+        mUsers.clear();
+    }
+
     public static synchronized List<User> getUsers() {
         return mUsers;
     }

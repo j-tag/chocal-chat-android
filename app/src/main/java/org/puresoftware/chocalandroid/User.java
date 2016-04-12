@@ -8,22 +8,24 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 
 /**
- * Created by JTAG on 06/04/2016 10:26.
+ * org.puresoftware.chocalandroid
+ * Created by Hesam Gholami on 2016/04/06 10:26.
  */
 public class User {
 
     public User() {
+        this.localId = counter++;
     }
 
     public User(String name, Bitmap avatar) {
-        this.id = counter++;
+        this.localId = counter++;
         this.name = name;
         this.avatar = avatar;
     }
 
     private static int counter = 1;
 
-    int id;
+    int localId;
     String name;
     Bitmap avatar = null;
 
@@ -31,7 +33,8 @@ public class User {
         if (avatar == null) {
             avatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_avatar);
         }
-        RoundedBitmapDrawable avatarRounded = RoundedBitmapDrawableFactory.create(context.getResources(), avatar);
+        RoundedBitmapDrawable avatarRounded = RoundedBitmapDrawableFactory
+                .create(context.getResources(), ChocalImage.getAvatarValidBitmap(avatar));
         avatarRounded.setCircular(true);
         return avatarRounded;
     }

@@ -12,7 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by JTAG on 06/04/2016 10:15.
+ * org.puresoftware.chocalandroid
+ * Created by Hesam Gholami on 2016/04/06 10:15.
  */
 public class UserAdapter extends BaseAdapter {
 
@@ -36,7 +37,7 @@ public class UserAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return mUsers.get(position).id;
+        return mUsers.get(position).localId;
     }
 
     @Override

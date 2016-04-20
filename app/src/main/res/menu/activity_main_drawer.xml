@@ -10,6 +10,10 @@
             android:id="@+id/nav_leave_chat"
             android:icon="@drawable/ic_menu_leave"
             android:title="@string/leave_chat" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/about" />
     </group>
 
 </menu>

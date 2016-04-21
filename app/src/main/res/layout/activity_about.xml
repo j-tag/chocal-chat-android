@@ -20,7 +20,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:src="@mipmap/ic_chocal"
+            android:src="@drawable/chocal_logo"
             android:contentDescription="@string/chocal_logo" />
 
         <TextView

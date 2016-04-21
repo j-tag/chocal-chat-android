@@ -12,17 +12,64 @@
     tools:context="org.puresoftware.chocalandroid.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <ListView
+        android:id="@+id/chat_list_view"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_above="@+id/bottom_layout"
+        android:layout_height="match_parent"/>
 
-    <EditText
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignParentBottom="true" />
+        android:text="@string/send"
+        style="@style/Widget.AppCompat.Button.Colored" />
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_send">
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_weight="20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_avatar"
+            android:contentDescription="@string/avatar_photo"/>
+
+
+        <EditText
+            android:id="@+id/txt_message"
+            android:layout_weight="70"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="false"
+            android:hint="@string/type_your_message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxHeight="100dp"/>
+
+        <ImageButton
+            android:id="@+id/img_btn_attachment"
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chat_attachment"
+            android:contentDescription="@string/attachment"
+            android:layout_gravity="center"
+            style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+    </LinearLayout>
+
+
+
+
 
 </RelativeLayout>

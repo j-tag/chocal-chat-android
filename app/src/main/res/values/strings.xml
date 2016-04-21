@@ -48,4 +48,7 @@
     <string name="this_project_is_available_on_github_com">This project is available on github.com</string>
     <string name="all_rights_reserver_2012_2016_by_puresoftware_org">All rights reserver. 2012 - 2016 by puresoftware.org</string>
     <string name="pure_soft">Pure Soft</string>
+    <string name="send">Send</string>
+    <string name="attachment">Attachment</string>
+    <string name="type_your_message">Type your message...</string>
 </resources>

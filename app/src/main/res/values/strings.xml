@@ -46,9 +46,13 @@
     <string name="chocal_chat_is_a_free_software_that_will_run_in_your_local_network_to_provide_a_cross_platform_solution_for_communicating_between_each_other">Chocal Chat is a free software that will run in your local network to provide a cross platform solution for communicating between each other.</string>
     <string name="developer_hesam_gholami_hesam_org">Developer: Hesam Gholami (hesam.org)</string>
     <string name="this_project_is_available_on_github_com">This project is available on github.com</string>
-    <string name="all_rights_reserver_2012_2016_by_puresoftware_org">All rights reserver. 2012 - 2016 by puresoftware.org</string>
+    <string name="all_rights_reserver_2012_2016_by_puresoftware_org">All rights reserver. 2012 – 2016 by Pure Software group</string>
     <string name="pure_soft">Pure Soft</string>
     <string name="send">Send</string>
     <string name="attachment">Attachment</string>
-    <string name="type_your_message">Type your message...</string>
+    <string name="type_your_message">Type your message…</string>
+    <string name="select_attachment">Select Attachment</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="attachment_photo_added">Attachment photo added</string>
 </resources>

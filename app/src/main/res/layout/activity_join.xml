@@ -100,8 +100,6 @@
                 android:layout_gravity="center_horizontal"
                 style="?android:attr/buttonBarStyle">
 
-
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,6 +117,7 @@
                     android:layout_gravity="start"
                     android:layout_weight="1"
                     style="?android:attr/buttonBarButtonStyle"/>
+
             </LinearLayout>
 
             <Button

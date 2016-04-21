@@ -126,23 +126,38 @@ public class Chocal {
         }
     }
 
-    public static synchronized void sendTextMessage(String message) {
+    protected static synchronized void sendGeneralMessage(String message, Bitmap image) {
         JSONObject json = new JSONObject();
         String strJson;
 
         try {
-            json.put("type", "plain");
+            if (image == null) {
+                json.put("type", "plain");
+            } else {
+                json.put("type", "image");
+                json.put("image", Chocal.base64Encode(image, Bitmap.CompressFormat.JPEG, 100));
+                json.put("image_type", "jpeg");
+            }
+
             json.put("user_key", mUserKey);
             json.put("message", message);
 
             strJson = json.toString();
             mConnection.sendText(json.toString());
-            Log.d("Chocal.Socket", "Sending plain text message: " + strJson);
+            Log.d("Chocal.Socket", "Sending message: " + strJson);
 
         } catch (JSONException e) {
             e.printStackTrace();
             // TODO : Show snack bar
         }
+    }
+
+    public static synchronized void sendTextMessage(String message) {
+        sendGeneralMessage(message, null);
+    }
+
+    public static synchronized void sendImageMessage(String message, Bitmap image) {
+        sendGeneralMessage(message, image);
     }
 
     public static synchronized void leave() {

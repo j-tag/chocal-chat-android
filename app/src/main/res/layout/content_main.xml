@@ -39,7 +39,7 @@
 
         <ImageView
             android:id="@+id/img_avatar"
-            android:layout_weight="20"
+            android:layout_weight="10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/no_avatar"
@@ -48,7 +48,7 @@
 
         <EditText
             android:id="@+id/txt_message"
-            android:layout_weight="70"
+            android:layout_weight="80"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scrollHorizontally="false"

@@ -33,6 +33,7 @@ public class Chocal {
     private static User mUser = new User();
     private static AppCompatActivity mActivity;
     private static List<User> mUsers = new ArrayList<>();
+    private static String mUserKey;
 
     private Chocal() {
 
@@ -78,7 +79,12 @@ public class Chocal {
         // First of all, add current user
         mUsers.add(mUser);
 
+
         try {
+            // Store user key
+            mUserKey = json.getString("user_key");
+
+            // Get online users
             JSONArray onlineClients = json.getJSONArray("online_users");
 
             for(int i = 0 ; i < onlineClients.length(); i++){
@@ -109,14 +115,34 @@ public class Chocal {
                 register.put("image", base64Encode(mUser.avatar, Bitmap.CompressFormat.JPEG, 100));
                 register.put("image_type", "jpeg");
             }
+
+            strJson = register.toString();
+            mConnection.sendText(strJson);
+            Log.d("Chocal.Socket", "Sending register request message: " + strJson);
+
         } catch (JSONException e) {
             e.printStackTrace();
             // TODO : Show snack bar
         }
+    }
 
-        strJson = register.toString();
-        Log.d("Chocal.Socket", "Sending register request message: " + strJson);
-        mConnection.sendText(strJson);
+    public static synchronized void sendTextMessage(String message) {
+        JSONObject json = new JSONObject();
+        String strJson;
+
+        try {
+            json.put("type", "plain");
+            json.put("user_key", mUserKey);
+            json.put("message", message);
+
+            strJson = json.toString();
+            mConnection.sendText(json.toString());
+            Log.d("Chocal.Socket", "Sending plain text message: " + strJson);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // TODO : Show snack bar
+        }
     }
 
     public static synchronized void leave() {

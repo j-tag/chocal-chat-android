@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,19 @@ public class MainActivity extends AppCompatActivity
 
         // Show user Avatar as a circular image
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
+        ImageView chatAvatar = (ImageView) findViewById(R.id.img_avatar);
         avatar.setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
+        chatAvatar.setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
+
+        // Handle send button
+        Button btnSend = (Button) findViewById(R.id.btn_send);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
     }
 
     @Override
@@ -94,6 +108,21 @@ public class MainActivity extends AppCompatActivity
         // Show number of online users as title
         String title = getString(R.string.online_number);
         setTitle(String.format(title, Chocal.getUsers().size()));
+    }
+
+    /**
+     * This method will triggered when send button is clicked.
+     */
+    private void send() {
+        // TODO : Choose to send plain message or image message
+        EditText txtMessage = (EditText) findViewById(R.id.txt_message);
+        String strMessage = txtMessage.getText().toString();
+
+        Chocal.sendTextMessage(strMessage);
+
+        // Empty edit text
+        txtMessage.setText("");
+        txtMessage.requestFocus();
     }
 
     private void leave() {

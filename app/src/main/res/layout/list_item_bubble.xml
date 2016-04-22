@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txt_bubble_message"
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/avatar_width"
+        android:layout_height="@dimen/avatar_width"
+        android:layout_margin="@dimen/chat_bubble_avatar_margin"
+        android:contentDescription="@string/avatar_photo"
+        android:src="@drawable/no_avatar"/>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/chat_bubble"
+        android:layout_margin="@dimen/chat_bubble_avatar_margin">
+
+        <TextView
+            android:id="@+id/txt_bubble_name"
+            android:text="Medium Text"
+            style="@style/chat_name_style" />
+
+        <ImageView
+            android:id="@+id/img_bubble_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/chat_bubble_avatar_margin"
+            android:contentDescription="@string/message_photo"
+            />
+
+        <TextView
+            android:id="@+id/txt_bubble_message"
+            android:text="Medium Text"
+            style="@style/chat_text_message_style"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

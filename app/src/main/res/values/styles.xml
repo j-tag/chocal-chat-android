@@ -21,4 +21,17 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="chat_text_message_style" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:padding">@dimen/chat_bubble_avatar_margin</item>
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="chat_name_style" parent="chat_text_message_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

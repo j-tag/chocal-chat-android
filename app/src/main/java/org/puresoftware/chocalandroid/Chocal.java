@@ -28,12 +28,14 @@ public class Chocal {
 
     private static final Chocal _instance = new Chocal();
     private static final WebSocketFactory mSocketFactory = new WebSocketFactory();
+    public static final String TAG_CHOCAL_SOCKET = "Chocal.Socket";
     private static WebSocket mConnection;
     private static String mUri;
     private static User mUser = new User();
     private static AppCompatActivity mActivity;
-    private static List<User> mUsers = new ArrayList<>();
+    private static ArrayList<User> mUsers = new ArrayList<>();
     private static String mUserKey;
+    private static ArrayList<IMessage> mMessages = new ArrayList<>();
 
     private Chocal() {
 
@@ -63,7 +65,7 @@ public class Chocal {
 
         } catch (IOException | WebSocketException e) {
             e.printStackTrace();
-            Log.e("Chocal.Socket", "Can't connect to Chocal Server. " + e.toString());
+            Log.e(TAG_CHOCAL_SOCKET, "Can't connect to Chocal Server. " + e.toString());
             // Something went wrong, so return false
             return false;
         }
@@ -109,7 +111,7 @@ public class Chocal {
 
             strJson = register.toString();
             mConnection.sendText(strJson);
-            Log.d("Chocal.Socket", "Sending register request message: " + strJson);
+            Log.d(TAG_CHOCAL_SOCKET, "Sending register request message: " + strJson);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -135,7 +137,7 @@ public class Chocal {
 
             strJson = json.toString();
             mConnection.sendText(json.toString());
-            Log.d("Chocal.Socket", "Sending message: " + strJson);
+            Log.d(TAG_CHOCAL_SOCKET, "Sending message: " + strJson);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -149,6 +151,16 @@ public class Chocal {
 
     public static synchronized void sendImageMessage(String message, Bitmap image) {
         sendGeneralMessage(message, image);
+    }
+
+    public static synchronized void appendTextMessage(JSONObject json) {
+        try {
+            PlainMessage message = new PlainMessage(getUser(json.getString("name")), json.getString("message"));
+            mMessages.add(message);
+            refreshMessageView();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public static synchronized void leave() {
@@ -171,12 +183,16 @@ public class Chocal {
         Chocal.mUser = mUser;
     }
 
-    public static synchronized List<User> getUsers() {
+    public static synchronized ArrayList<User> getUsers() {
         return mUsers;
     }
 
     public static synchronized User getUser(int index){
         return mUsers.get(index);
+    }
+
+    public static synchronized User getUser(String name) {
+        return getUser(getUserIndexByName(name));
     }
 
     public static synchronized void addUser(JSONObject json) throws JSONException {
@@ -203,6 +219,10 @@ public class Chocal {
         return -1;
     }
 
+    public static synchronized ArrayList<IMessage> getMessages() {
+        return mMessages;
+    }
+
     public static synchronized void showMainActivity() {
         // Go to main activity
         Intent intent = new Intent(mActivity, MainActivity.class);
@@ -223,6 +243,12 @@ public class Chocal {
 
         if (mActivity instanceof UsersActivity) {
             ((UsersActivity)mActivity).refreshOnlineUsers();
+        }
+    }
+
+    public static synchronized void refreshMessageView() {
+        if (mActivity instanceof MainActivity) {
+            ((MainActivity)mActivity).refreshMessageView();
         }
     }
 

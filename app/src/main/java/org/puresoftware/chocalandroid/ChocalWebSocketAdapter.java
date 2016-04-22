@@ -55,7 +55,7 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
             // Decide how to treat message based on its type
             switch (json.getString("type")) {
                 case "plain":
-                    // TODO: Handle message
+                    Chocal.appendTextMessage(json);
                     break;
                 case "image":
                     // TODO: Handle message

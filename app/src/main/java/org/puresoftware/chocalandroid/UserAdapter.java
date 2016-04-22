@@ -5,22 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * org.puresoftware.chocalandroid
  * Created by Hesam Gholami on 2016/04/06 10:15.
  */
-public class UserAdapter extends BaseAdapter {
+public class UserAdapter extends ArrayAdapter {
 
     private Context mContext;
-    private List<User> mUsers;
+    private ArrayList<User> mUsers;
 
     public UserAdapter(AppCompatActivity activity) {
+        super(activity, R.layout.list_item_user);
         mContext = activity;
         mUsers = Chocal.getUsers();
     }

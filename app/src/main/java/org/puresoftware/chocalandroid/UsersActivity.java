@@ -5,12 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import java.util.List;
-
 public class UsersActivity extends AppCompatActivity {
 
-    private static ListView usersView;
-    private UserAdapter mAdapter = new UserAdapter(this);
+    private static ListView mUsersView;
+    private UserAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +25,16 @@ public class UsersActivity extends AppCompatActivity {
         }
 
         // Load users list view
-        usersView = (ListView) findViewById(R.id.users_list);
-        usersView.setAdapter(mAdapter);
+        mAdapter = new UserAdapter(this);
+        mUsersView = (ListView) findViewById(R.id.users_list);
+        mUsersView.setAdapter(mAdapter);
     }
 
     public void refreshOnlineUsers() {
-        mAdapter.notifyDataSetChanged();
+        UsersActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

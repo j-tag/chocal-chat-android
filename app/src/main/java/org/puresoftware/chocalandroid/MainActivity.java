@@ -14,14 +14,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity
 
 
     private Bitmap mAttachmentPhoto;
+    private static ListView mChatView;
+    private ChatAdapter mAdapter;
 
 
     @Override
@@ -55,8 +61,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        refreshTitle();
 
         // Set current Chocal activity
         Chocal.setActivity(MainActivity.this);
@@ -93,6 +97,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Load message view
+        mAdapter = new ChatAdapter(this);
+        mChatView = (ListView) findViewById(R.id.chat_list_view);
+        mChatView.setAdapter(mAdapter);
+
+        // Refresh view
+        refreshTitle();
+        refreshMessageView();
     }
 
     @Override
@@ -130,10 +142,30 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void refreshTitle() {
+    public synchronized void refreshTitle() {
         // Show number of online users as title
         String title = getString(R.string.online_number);
         setTitle(String.format(title, Chocal.getUsers().size()));
+    }
+
+    public synchronized void refreshMessageView() {
+        // Update message list
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                goToLast();
+            }
+        });
+    }
+
+    public void goToLast() {
+        mChatView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select last row
+                mChatView.smoothScrollToPosition(mAdapter.getCount() - 1);
+            }
+        });
     }
 
     /**

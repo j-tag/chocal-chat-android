@@ -64,6 +64,11 @@ public class ChatAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) rowView.getTag();
         }
 
+        // Handle info message
+        if (message.getType().equalsIgnoreCase("info")) {
+            return getInfoView(message.getMessage(), viewHolder, rowView);
+        }
+
         // Check whether to see current message is a self message or not
         if (message.isSelfMessage()) {
             // Self message
@@ -77,8 +82,22 @@ public class ChatAdapter extends ArrayAdapter {
             viewHolder.mAvatarView.setImageDrawable(message.getUser().getAvatarDrawable(mContext));
         }
 
+        viewHolder.mNameView.setVisibility(View.VISIBLE);
+        viewHolder.mMessageView.setVisibility(View.VISIBLE);
         viewHolder.mMessageView.setText(message.getMessage());
         viewHolder.mPhotoView.setImageBitmap(message.getPhoto());
+        viewHolder.mPhotoView.setVisibility(View.VISIBLE);
+
+        return rowView;
+    }
+
+    protected View getInfoView(String message, ViewHolder viewHolder, View rowView) {
+        viewHolder.mContentLayout.setBackgroundResource(R.drawable.chat_bubble_info);
+        viewHolder.mNameView.setVisibility(View.GONE);
+        viewHolder.mAvatarView.setVisibility(View.GONE);
+        viewHolder.mPhotoView.setVisibility(View.GONE);
+        viewHolder.mMessageView.setText(message);
+
         return rowView;
     }
 

@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by JTAG on 09/04/2016 20:56.
+ * org.puresoftware.chocalandroid
+ * Created by Hesam Gholami on 2016/04/09 20:56.
  */
 public class ChocalWebSocketAdapter extends WebSocketAdapter {
     @Override
@@ -61,7 +62,7 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
                     Chocal.appendImageMessage(json);
                     break;
                 case "info":
-                    // TODO: Handle message
+                    Chocal.appendInfoMessage(json);
                     break;
                 case "update":
                     handleUpdate(json);

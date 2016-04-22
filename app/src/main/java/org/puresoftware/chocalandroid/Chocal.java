@@ -169,6 +169,9 @@ public class Chocal {
                     message = new ImageMessage(getUser(json.getString("name")),
                             json.getString("message"), base64Decode(json.getString("image")));
                     break;
+                case "info":
+                    message = new InfoMessage(json.getString("message"));
+                    break;
                 default:
                     throw new Exception("Message type is not handled.");
             }
@@ -188,6 +191,10 @@ public class Chocal {
     }
 
     public static synchronized void appendImageMessage(JSONObject json) {
+        appendGeneralMessage(json);
+    }
+
+    public static synchronized void appendInfoMessage(JSONObject json) {
         appendGeneralMessage(json);
     }
 

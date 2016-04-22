@@ -14,7 +14,8 @@
         android:scrollbarStyle="outsideOverlay"
         android:layout_above="@+id/bottom_layout"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"/>
+        android:divider="@android:color/transparent"
+        android:stackFromBottom="true"/>
 
 
     <Button

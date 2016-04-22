@@ -153,14 +153,37 @@ public class Chocal {
         sendGeneralMessage(message, image);
     }
 
-    public static synchronized void appendTextMessage(JSONObject json) {
+    protected static synchronized void appendGeneralMessage(JSONObject json) {
         try {
-            PlainMessage message = new PlainMessage(getUser(json.getString("name")), json.getString("message"));
+            String strType = json.getString("type");
+            IMessage message;
+
+            switch (strType) {
+                case "plain":
+                    message = new PlainMessage(getUser(json.getString("name")),
+                            json.getString("message"));
+                    break;
+                case "image":
+                    message = new ImageMessage(getUser(json.getString("name")),
+                            json.getString("message"), base64Decode(json.getString("image")));
+                    break;
+                default:
+                    throw new Exception("Message type is not handled.");
+            }
+
             mMessages.add(message);
             refreshMessageView();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static synchronized void appendTextMessage(JSONObject json) {
+        appendGeneralMessage(json);
+    }
+
+    public static synchronized void appendImageMessage(JSONObject json) {
+        appendGeneralMessage(json);
     }
 
     public static synchronized void leave() {

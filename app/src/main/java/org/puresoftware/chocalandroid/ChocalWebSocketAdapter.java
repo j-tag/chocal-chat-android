@@ -58,7 +58,7 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
                     Chocal.appendTextMessage(json);
                     break;
                 case "image":
-                    // TODO: Handle message
+                    Chocal.appendImageMessage(json);
                     break;
                 case "info":
                     // TODO: Handle message

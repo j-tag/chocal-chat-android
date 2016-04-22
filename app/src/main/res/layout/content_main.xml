@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:scrollbarStyle="outsideOverlay"
         android:layout_above="@+id/bottom_layout"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"/>
 
 
     <Button
@@ -33,20 +34,21 @@
 
         <ImageView
             android:id="@+id/img_avatar"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/avatar_width"
             android:src="@drawable/no_avatar"
             android:contentDescription="@string/avatar_photo"/>
 
 
         <EditText
             android:id="@+id/txt_message"
-            android:layout_weight="80"
+            android:layout_weight="70"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scrollHorizontally="false"
             android:hint="@string/type_your_message"
+            android:layout_gravity="center"
             android:inputType="textCapSentences|textMultiLine"
             android:maxHeight="100dp"/>
 

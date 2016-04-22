@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/chat_bubble_avatar_margin"
+            android:scaleType="center"
             android:contentDescription="@string/message_photo"
             />
 

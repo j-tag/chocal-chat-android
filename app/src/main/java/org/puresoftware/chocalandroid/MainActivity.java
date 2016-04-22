@@ -250,8 +250,8 @@ public class MainActivity extends AppCompatActivity
                 // Update attachment photo
                 mAttachmentPhoto = BitmapFactory.decodeStream(inputStream);
                 // Show snack bar
-                Snackbar.make(Chocal.getActivity().findViewById(R.id.btn_send), R.string.attachment_photo_added,
-                        Snackbar.LENGTH_LONG)
+                Snackbar.make(Chocal.getActivity().findViewById(R.id.btn_send),
+                        R.string.attachment_photo_added, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

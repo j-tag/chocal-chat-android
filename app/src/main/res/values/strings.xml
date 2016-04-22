@@ -38,10 +38,14 @@
     <string name="send">Send</string>
     <string name="attachment">Attachment</string>
     <string name="type_your_message">Type your message…</string>
-    <string name="select_attachment">Select Attachment</string>
+    <string name="select_attachment_photo">Select Attachment Photo</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="attachment_photo_added">Attachment photo added</string>
     <string name="message_photo">Message photo</string>
     <string name="you">You</string>
+    <string name="an_error_occurred_while_trying_to_show_another_error">An error occurred while trying to show another error!</string>
+    <string name="a_message_received_that_the_app_cant_understand">A message received that the app can\'t understand</string>
+    <string name="cant_connect_to_chocal_chat">Can\'t connect to Chocal Chat</string>
+    <string name="message_wasnt_send">Message wasn\'t send</string>
 </resources>

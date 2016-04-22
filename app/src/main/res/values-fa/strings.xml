@@ -39,7 +39,7 @@
     <string name="send">ارسال</string>
     <string name="attachment">ضمیمه</string>
     <string name="type_your_message">پیامی بنویسید…</string>
-    <string name="select_attachment">انتخاب ضمیمه</string>
+    <string name="select_attachment_photo">انتخاب تصویر ضمیمه</string>
     <string name="gallery">گالری</string>
     <string name="camera">دوربین</string>
     <string name="attachment_photo_added">تصویر ضمیمه اضافه شد</string>

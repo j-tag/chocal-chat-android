@@ -59,6 +59,7 @@
             android:layout_weight="20"
             android:layout_width="0dp"
             android:layout_height="@dimen/avatar_width"
+            android:layout_marginTop="@dimen/chat_bubble_avatar_margin"
             android:src="@drawable/no_avatar"
             android:contentDescription="@string/avatar_photo"/>
 

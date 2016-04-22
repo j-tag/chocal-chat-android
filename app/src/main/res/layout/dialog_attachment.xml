@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/select_attachment"
+        android:text="@string/select_attachment_photo"
         android:id="@+id/txt_attachment_title" />
 
     <LinearLayout

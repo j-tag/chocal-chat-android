@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity
         final Dialog dlgAttachment = new Dialog(this);
 
         dlgAttachment.setContentView(R.layout.dialog_attachment);
-        dlgAttachment.setTitle(getString(R.string.select_attachment));
+        dlgAttachment.setTitle(getString(R.string.select_attachment_photo));
 
         // Handle capture button
         final Button btnCamera = (Button) dlgAttachment.findViewById(R.id.capture_photo_button);

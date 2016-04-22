@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -117,7 +118,7 @@ public class Chocal {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            // TODO : Show snack bar
+            showError(mActivity.getString(R.string.cant_connect_to_chocal_chat));
         }
     }
 
@@ -143,7 +144,7 @@ public class Chocal {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            // TODO : Show snack bar
+            showError(mActivity.getString(R.string.message_wasnt_send));
         }
     }
 
@@ -196,6 +197,26 @@ public class Chocal {
 
     public static synchronized void appendInfoMessage(JSONObject json) {
         appendGeneralMessage(json);
+    }
+
+    public static synchronized void appendErrorMessage(JSONObject json) {
+        String strError;
+        try {
+            strError = json.getString("message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            strError = mActivity
+                    .getString(R.string.an_error_occurred_while_trying_to_show_another_error);
+        }
+
+        showError(strError);
+    }
+
+    public static synchronized void showError(String error) {
+        if(mActivity instanceof MainActivity) {
+            Snackbar.make(mActivity.findViewById(R.id.btn_send), error, Snackbar.LENGTH_LONG)
+                    .show();
+        }
     }
 
     public static synchronized void leave() {

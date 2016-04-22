@@ -72,14 +72,14 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
                     Chocal.initOnlineUsers(json);
                     break;
                 case "error":
-                    // TODO: Handle message
+                    Chocal.appendErrorMessage(json);
                     break;
                 default:
                     break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            // TODO : Show snack bar
+            Chocal.showError(Chocal.getActivity().getString(R.string.a_message_received_that_the_app_cant_understand));
         }
     }
 

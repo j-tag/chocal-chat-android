@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Main handler class for communicate with Chocal Server
@@ -174,6 +173,9 @@ public class Chocal {
                     throw new Exception("Message type is not handled.");
             }
 
+            // Check to see if sender user is current user
+            message.setIsSelfMessage(message.getUser().name.equals(mUser.name));
+
             mMessages.add(message);
             refreshMessageView();
         } catch (Exception e) {
@@ -196,9 +198,11 @@ public class Chocal {
         setCurrentUser(null);
         setUri(null);
         mUsers.clear();
+        mMessages.clear();
         // Reload new data
         User.resetCounter();
         setCurrentUser(new User());
+        PlainMessage.resetCounter();
     }
 
     public static User getCurrentUser() {

@@ -44,27 +44,30 @@ public class UserAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView;
+        ViewHolder viewHolder;
         User user = mUsers.get(position);
-        TextView nameView;
-        ImageView avatarView;
 
         if (convertView == null) {
+            viewHolder = new ViewHolder();
             rowView = LayoutInflater.from(mContext).inflate(R.layout.list_item_user, parent, false);
 
-            nameView =(TextView) rowView.findViewById(R.id.user_name);
-            avatarView =(ImageView) rowView.findViewById(R.id.user_avatar);
+            viewHolder.mNameView =(TextView) rowView.findViewById(R.id.user_name);
+            viewHolder.mAvatarView =(ImageView) rowView.findViewById(R.id.user_avatar);
 
-            rowView.setTag(R.integer.user_list_name_tag, nameView);
-            rowView.setTag(R.integer.user_list_avatar_tag, avatarView);
+            rowView.setTag(viewHolder);
         } else {
             rowView = convertView;
-            nameView =(TextView) rowView.getTag(R.integer.user_list_name_tag);
-            avatarView =(ImageView) rowView.getTag(R.integer.user_list_avatar_tag);
+            viewHolder =(ViewHolder) rowView.getTag();
         }
 
-        nameView.setText(user.name);
-        avatarView.setImageDrawable(user.getAvatarDrawable(mContext));
+        viewHolder.mNameView.setText(user.name);
+        viewHolder.mAvatarView.setImageDrawable(user.getAvatarDrawable(mContext));
         return rowView;
+    }
+
+    class ViewHolder {
+        TextView mNameView;
+        ImageView mAvatarView;
     }
 
 }

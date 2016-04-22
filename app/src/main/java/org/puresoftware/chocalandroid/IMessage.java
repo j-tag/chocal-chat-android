@@ -12,9 +12,11 @@ public interface IMessage {
     User getUser();
     String getMessage();
     Bitmap getPhoto();
+    boolean isSelfMessage();
 
     void setType(String type);
     void setUser(User user);
     void setMessage(String message);
     void setPhoto(Bitmap photo);
+    void setIsSelfMessage(boolean isSelfMessage);
 }

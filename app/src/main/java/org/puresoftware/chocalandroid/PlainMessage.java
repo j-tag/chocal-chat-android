@@ -14,6 +14,7 @@ public class PlainMessage implements IMessage {
     protected String mType;
     protected User mUser;
     protected String mMessage;
+    protected boolean mBSelfMessage = false;
 
     public PlainMessage() {
         mLocalId = counter++;
@@ -52,6 +53,10 @@ public class PlainMessage implements IMessage {
         return null;
     }
 
+    public boolean isSelfMessage() {
+        return this.mBSelfMessage;
+    }
+
     public void setType(String type) {
         this.mType = type;
     }
@@ -65,4 +70,12 @@ public class PlainMessage implements IMessage {
     }
 
     public void setPhoto(Bitmap photo) {}
+
+    public void setIsSelfMessage(boolean isSelfMessage) {
+        this.mBSelfMessage = isSelfMessage;
+    }
+
+    public static void resetCounter() {
+        counter = 0;
+    }
 }

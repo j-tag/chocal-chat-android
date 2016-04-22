@@ -66,14 +66,14 @@ public class MainActivity extends AppCompatActivity
         TextView nameView = (TextView) headerView.findViewById(R.id.nav_name);
         TextView statusView = (TextView) headerView.findViewById(R.id.nav_status);
 
-        nameView.setText(Chocal.getCurentUser().name);
+        nameView.setText(Chocal.getCurrentUser().name);
         statusView.setText(R.string.online);
 
         // Show user Avatar as a circular image
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
         ImageView chatAvatar = (ImageView) findViewById(R.id.img_avatar);
-        avatar.setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
-        chatAvatar.setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
+        avatar.setImageDrawable(Chocal.getCurrentUser().getAvatarDrawable(this));
+        chatAvatar.setImageDrawable(Chocal.getCurrentUser().getAvatarDrawable(this));
 
         // Handle send button
         final Button btnSend = (Button) findViewById(R.id.btn_send);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void refreshTitle() {
+    public void refreshTitle() {
         // Show number of online users as title
         String title = getString(R.string.online_number);
         setTitle(String.format(title, Chocal.getUsers().size()));

@@ -44,13 +44,23 @@ public class UserAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView;
         User user = mUsers.get(position);
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView nameView;
         ImageView avatarView;
 
-        rowView = inflater.inflate(R.layout.list_item_user, parent, false);
-        nameView =(TextView) rowView.findViewById(R.id.user_name);
-        avatarView =(ImageView) rowView.findViewById(R.id.user_avatar);
+        if (convertView == null) {
+            rowView = LayoutInflater.from(mContext).inflate(R.layout.list_item_user, parent, false);
+
+            nameView =(TextView) rowView.findViewById(R.id.user_name);
+            avatarView =(ImageView) rowView.findViewById(R.id.user_avatar);
+
+            rowView.setTag(R.integer.user_list_name_tag, nameView);
+            rowView.setTag(R.integer.user_list_avatar_tag, avatarView);
+        } else {
+            rowView = convertView;
+            nameView =(TextView) rowView.getTag(R.integer.user_list_name_tag);
+            avatarView =(ImageView) rowView.getTag(R.integer.user_list_avatar_tag);
+        }
+
         nameView.setText(user.name);
         avatarView.setImageDrawable(user.getAvatarDrawable(mContext));
         return rowView;

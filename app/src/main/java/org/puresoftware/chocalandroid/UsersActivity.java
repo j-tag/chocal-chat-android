@@ -10,11 +10,15 @@ import java.util.List;
 public class UsersActivity extends AppCompatActivity {
 
     private static ListView usersView;
+    private UserAdapter mAdapter = new UserAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
+
+        // Set current chocal activity
+        Chocal.setActivity(this);
 
         // Enable back button
         ActionBar actionBar = getSupportActionBar();
@@ -24,6 +28,10 @@ public class UsersActivity extends AppCompatActivity {
 
         // Load users list view
         usersView = (ListView) findViewById(R.id.users_list);
-        usersView.setAdapter(new UserAdapter(this));
+        usersView.setAdapter(mAdapter);
+    }
+
+    public void refreshOnlineUsers() {
+        mAdapter.notifyDataSetChanged();
     }
 }

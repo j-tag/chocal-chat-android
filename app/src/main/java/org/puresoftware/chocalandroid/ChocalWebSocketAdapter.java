@@ -64,7 +64,7 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
                     // TODO: Handle message
                     break;
                 case "update":
-                    // TODO: Handle message
+                    handleUpdate(json);
                     break;
                 case "accepted":
                     Chocal.showMainActivity();
@@ -79,6 +79,25 @@ public class ChocalWebSocketAdapter extends WebSocketAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
             // TODO : Show snack bar
+        }
+    }
+
+    private static void handleUpdate(JSONObject json) {
+        try {
+            switch (json.getString("update")) {
+                case "userJoined":
+                    Chocal.addUser(json);
+                    Chocal.refreshOnlineUsers();
+                    break;
+                case "userLeft":
+                    Chocal.removeUser(json.getString("name"));
+                    Chocal.refreshOnlineUsers();
+                    break;
+                default:
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

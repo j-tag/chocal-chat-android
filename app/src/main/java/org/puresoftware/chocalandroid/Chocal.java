@@ -76,10 +76,6 @@ public class Chocal {
      */
     public static synchronized void initOnlineUsers(JSONObject json) {
 
-        // First of all, add current user
-        mUsers.add(mUser);
-
-
         try {
             // Store user key
             mUserKey = json.getString("user_key");
@@ -89,12 +85,7 @@ public class Chocal {
 
             for(int i = 0 ; i < onlineClients.length(); i++){
                 JSONObject client = onlineClients.getJSONObject(i);
-                Bitmap avatar = null;
-                if(client.has("image")) {
-                    avatar = base64Decode(client.getString("image"));
-                }
-                User user = new User(client.getString("name"), avatar);
-                mUsers.add(user);
+                addUser(client);
             }
 
         } catch (JSONException e) {
@@ -172,7 +163,7 @@ public class Chocal {
         setCurrentUser(new User());
     }
 
-    public static User getCurentUser() {
+    public static User getCurrentUser() {
         return mUser;
     }
 
@@ -188,6 +179,30 @@ public class Chocal {
         return mUsers.get(index);
     }
 
+    public static synchronized void addUser(JSONObject json) throws JSONException {
+        Bitmap avatar = null;
+        if(json.has("image")) {
+            avatar = base64Decode(json.getString("image"));
+        }
+        User user = new User(json.getString("name"), avatar);
+        mUsers.add(user);
+    }
+
+    public static synchronized void removeUser(String name) {
+        mUsers.remove(getUserIndexByName(name));
+    }
+
+    public static synchronized int getUserIndexByName(String name) {
+        for (int i = 0; i < mUsers.size(); i++) {
+            User user = mUsers.get(i);
+            if (user.name.equals(name)) {
+                return i;
+            }
+        }
+        // Name not found
+        return -1;
+    }
+
     public static synchronized void showMainActivity() {
         // Go to main activity
         Intent intent = new Intent(mActivity, MainActivity.class);
@@ -198,6 +213,16 @@ public class Chocal {
     public static synchronized void showProgress(boolean bShow) {
         if(mActivity instanceof JoinActivity) {
             ((JoinActivity) mActivity).showProgress(bShow);
+        }
+    }
+
+    public static synchronized void refreshOnlineUsers() {
+        if (mActivity instanceof MainActivity) {
+            ((MainActivity)mActivity).refreshTitle();
+        }
+
+        if (mActivity instanceof UsersActivity) {
+            ((UsersActivity)mActivity).refreshOnlineUsers();
         }
     }
 

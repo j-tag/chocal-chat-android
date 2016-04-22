@@ -97,7 +97,7 @@ public class JoinActivity extends AppCompatActivity {
         Chocal.setActivity(JoinActivity.this);
 
         // Load default avatar photo
-        ((ImageView)findViewById(R.id.avatar_image)).setImageDrawable(Chocal.getCurentUser().getAvatarDrawable(this));
+        ((ImageView)findViewById(R.id.avatar_image)).setImageDrawable(Chocal.getCurrentUser().getAvatarDrawable(this));
     }
 
     private void chooseAvatar() {
@@ -290,8 +290,8 @@ public class JoinActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             Chocal.setUri(mUri);
-            Chocal.getCurentUser().name = mName;
-            Chocal.getCurentUser().avatar = mAvatar;
+            Chocal.getCurrentUser().name = mName;
+            Chocal.getCurrentUser().avatar = mAvatar;
             return Chocal.initWebSocket();
         }
 

@@ -56,4 +56,5 @@
     <string name="camera">Camera</string>
     <string name="attachment_photo_added">Attachment photo added</string>
     <string name="message_photo">Message photo</string>
+    <string name="you">You</string>
 </resources>

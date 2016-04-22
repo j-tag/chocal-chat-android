@@ -5,16 +5,16 @@
     <ImageView
         android:id="@+id/img_avatar"
         android:contentDescription="@string/avatar_photo"
-        style="@style/chat_bubble_avatar"/>
-
+        style="@style/chat_bubble_avatar"
+        android:visibility="gone"/>
 
     <LinearLayout
         style="@style/chat_bubble_text_layout"
-        android:background="@drawable/chat_bubble">
+        android:background="@drawable/chat_bubble_self">
 
         <TextView
             android:id="@+id/txt_bubble_name"
-            android:text="Medium Text"
+            android:text="@string/you"
             style="@style/chat_bubble_name" />
 
         <ImageView
@@ -29,6 +29,8 @@
             style="@style/chat_bubble_text_message"/>
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

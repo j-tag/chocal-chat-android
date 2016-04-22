@@ -21,7 +21,33 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="chat_text_message_style" parent="TextAppearance.AppCompat.Medium">
+    <!-- Main layout of a chat bubble -->
+    <style name="chat_bubble_layout" >
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <!-- Chat bubble avatar styles -->
+    <style name="chat_bubble_avatar" >
+        <item name="android:layout_width">@dimen/avatar_width</item>
+        <item name="android:layout_height">@dimen/avatar_width</item>
+        <item name="android:layout_margin">@dimen/chat_bubble_avatar_margin</item>
+        <item name="android:src">@drawable/no_avatar</item>
+    </style>
+
+    <!-- Chat bubble text layout styles -->
+    <style name="chat_bubble_text_layout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_margin">@dimen/chat_bubble_avatar_margin</item>
+    </style>
+
+    <!-- Chat bubble text styles -->
+    <style name="chat_bubble_text_message" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
 
@@ -29,9 +55,18 @@
         <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
-    <style name="chat_name_style" parent="chat_text_message_style">
+    <!-- Chat bubble name text styles -->
+    <style name="chat_bubble_name" parent="chat_bubble_text_message">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Chat bubble photo styles -->
+    <style name="chat_bubble_photo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/chat_bubble_avatar_margin</item>
+        <item name="android:scaleType">center</item>
     </style>
 
 </resources>

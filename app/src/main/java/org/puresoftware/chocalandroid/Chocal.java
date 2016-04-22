@@ -78,6 +78,9 @@ public class Chocal {
      */
     public static synchronized void initOnlineUsers(JSONObject json) {
 
+        // First of all add current user
+        mUsers.add(mUser);
+
         try {
             // Store user key
             mUserKey = json.getString("user_key");
@@ -219,11 +222,18 @@ public class Chocal {
     }
 
     public static synchronized void addUser(JSONObject json) throws JSONException {
+        String name = json.getString("name");
+
+        // Don't add current user, because it was added before
+        if (name.equals(mUser.name)) {
+            return;
+        }
+
         Bitmap avatar = null;
         if(json.has("image")) {
             avatar = base64Decode(json.getString("image"));
         }
-        User user = new User(json.getString("name"), avatar);
+        User user = new User(name, avatar);
         mUsers.add(user);
     }
 

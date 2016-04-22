@@ -6,4 +6,5 @@
     <integer name="message_list_avatar_tag">4</integer>
     <integer name="message_list_message_tag">5</integer>
     <integer name="message_list_photo_tag">6</integer>
+    <integer name="message_list_self_tag">7</integer>
 </resources>

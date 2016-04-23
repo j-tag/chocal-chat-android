@@ -14,9 +14,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity
     private Bitmap mAttachmentPhoto;
     private static ListView mChatView;
     private ChatAdapter mAdapter;
+
+    private Button mBtnSend;
+    private Animation mScaleUp;
+    private Animation mScaleDown;
+
 
 
     @Override
@@ -73,6 +82,12 @@ public class MainActivity extends AppCompatActivity
         nameView.setText(Chocal.getCurrentUser().name);
         statusView.setText(R.string.online);
 
+        // Initialize animation objects
+        mScaleUp = AnimationUtils.loadAnimation(MainActivity.this,
+                R.anim.scale_up);
+        mScaleDown = AnimationUtils.loadAnimation(MainActivity.this,
+                R.anim.scale_down);
+
         // Show user Avatar as a circular image
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
         ImageView chatAvatar = (ImageView) findViewById(R.id.img_avatar);
@@ -80,8 +95,8 @@ public class MainActivity extends AppCompatActivity
         chatAvatar.setImageDrawable(Chocal.getCurrentUser().getAvatarDrawable(this));
 
         // Handle send button
-        final Button btnSend = (Button) findViewById(R.id.btn_send);
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        mBtnSend = (Button) findViewById(R.id.btn_send);
+        mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 send();
@@ -97,6 +112,31 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Handle message edit text
+        final EditText txtMessage = (EditText) findViewById(R.id.txt_message);
+        txtMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Show send button whenever there is any text in edit text
+                int textLength = txtMessage.length();
+                if (textLength == 0) {
+                    hideSendButton();
+                } else {
+                    showSendButton();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         // Load message view
         mAdapter = new ChatAdapter(this);
         mChatView = (ListView) findViewById(R.id.chat_list_view);
@@ -105,6 +145,18 @@ public class MainActivity extends AppCompatActivity
         // Refresh view
         refreshTitle();
         refreshMessageView();
+    }
+
+    public void showSendButton() {
+        if (mBtnSend.getTag() == null) {
+            mBtnSend.startAnimation(mScaleUp);
+            mBtnSend.setTag(true);
+        }
+    }
+
+    public void hideSendButton() {
+        mBtnSend.startAnimation(mScaleDown);
+        mBtnSend.setTag(null);
     }
 
     @Override
@@ -253,6 +305,8 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(Chocal.getActivity().findViewById(R.id.btn_send),
                         R.string.attachment_photo_added, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                // Show send button
+                showSendButton();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -266,9 +320,11 @@ public class MainActivity extends AppCompatActivity
             mAttachmentPhoto = extras.getParcelable("data");
 
             // Show snack bar
-            Snackbar.make(Chocal.getActivity().findViewById(R.id.btn_send), R.string.attachment_photo_added,
-                    Snackbar.LENGTH_LONG)
+            Snackbar.make(Chocal.getActivity().findViewById(R.id.btn_send),
+                    R.string.attachment_photo_added, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
+            // Show send button
+            showSendButton();
         }
     }
 

@@ -48,4 +48,5 @@
     <string name="a_message_received_that_the_app_cant_understand">A message received that the app can\'t understand</string>
     <string name="cant_connect_to_chocal_chat">Can\'t connect to Chocal Chat</string>
     <string name="message_wasnt_send">Message wasn\'t send</string>
+    <string name="shadow">Shadow</string>
 </resources>

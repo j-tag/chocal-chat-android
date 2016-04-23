@@ -1,7 +1,8 @@
 # Chocal Chat Android Client
 This repository contains Chocal Chat Android client. A simple Android client for Chocal Chat application to show a chat client in Android devices running Android 4(ICS) or above.
 
-![Chocal Android](https://puresoftware.org/images/chocal-chat/github/chocal-android.png)
+![Chocal Android](https://puresoftware.org/images/chocal-chat/github/chocal-android-chat.png)
+![Chocal Android](https://puresoftware.org/images/chocal-chat/github/chocal-android-online.png)
 
 # First Things First
 You need to run Chocal Chat Server application to your local network. You can take it from here: https://github.com/J-TAG/chocal-chat-server

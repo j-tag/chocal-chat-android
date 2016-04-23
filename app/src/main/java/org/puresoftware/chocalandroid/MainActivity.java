@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -50,9 +51,6 @@ public class MainActivity extends AppCompatActivity
     private ChatAdapter mAdapter;
 
     private Button mBtnSend;
-    private Animation mScaleUp;
-    private Animation mScaleDown;
-
 
 
     @Override
@@ -81,12 +79,6 @@ public class MainActivity extends AppCompatActivity
 
         nameView.setText(Chocal.getCurrentUser().name);
         statusView.setText(R.string.online);
-
-        // Initialize animation objects
-        mScaleUp = AnimationUtils.loadAnimation(MainActivity.this,
-                R.anim.scale_up);
-        mScaleDown = AnimationUtils.loadAnimation(MainActivity.this,
-                R.anim.scale_down);
 
         // Show user Avatar as a circular image
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_avatar);
@@ -149,13 +141,17 @@ public class MainActivity extends AppCompatActivity
 
     public void showSendButton() {
         if (mBtnSend.getTag() == null) {
-            mBtnSend.startAnimation(mScaleUp);
+            final Animation scaleUp = AnimationUtils.loadAnimation(MainActivity.this,
+                    R.anim.scale_up);
+            mBtnSend.startAnimation(scaleUp);
             mBtnSend.setTag(true);
         }
     }
 
     public void hideSendButton() {
-        mBtnSend.startAnimation(mScaleDown);
+        final Animation scaleDown = AnimationUtils.loadAnimation(MainActivity.this,
+                R.anim.scale_down);
+        mBtnSend.startAnimation(scaleDown);
         mBtnSend.setTag(null);
     }
 

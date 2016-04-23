@@ -49,4 +49,5 @@
     <string name="an_error_occurred_while_trying_to_show_another_error">هنگام نمایش یک خطا، خطایی دیگر رخ داد!</string>
     <string name="cant_connect_to_chocal_chat">نمیتوان به چوکال چت متصل شد</string>
     <string name="message_wasnt_send">پیام ارسال نشد</string>
+    <string name="shadow">سایه</string>
 </resources>
